@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, Stepper, Step, StepLabel, Typography, CircularPgrogress, Divider, Button } from '@material-ui/core';
+
+import { commerce } from '../../../lib/commerce';
 
 import useStyles from './styles';
 import AddressForm from '../AddressForm';
@@ -9,8 +11,18 @@ const steps = ['Shipping address', 'Payment details'];
 
 
 const Checkout = () => {
-    const [activeStep, setActiveStep] = useState(2);
+    const [activeStep, setActiveStep] = useState(0);
     const classes = useStyles();
+
+    useEffect(() => {
+        const generateToken = async () => {
+            try {
+                const toke = await commerce.checkout.generateToken();
+            } catch (error) {
+                
+            }
+        }
+    }, []);
 
     const Confirmation = () => (
         <div>
