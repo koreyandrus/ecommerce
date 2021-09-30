@@ -10,19 +10,24 @@ import PaymentForm from '../PaymentForm';
 const steps = ['Shipping address', 'Payment details'];
 
 
-const Checkout = () => {
+const Checkout = ( { cart }) => {
     const [activeStep, setActiveStep] = useState(0);
+    const [checkoutToken, setCheckoutToken] = useState(null);
     const classes = useStyles();
 
     useEffect(() => {
         const generateToken = async () => {
             try {
-                const toke = await commerce.checkout.generateToken();
+                const token = await commerce.checkout.generateToken(cart.id, { type: 'cart' });
+
+                setCheckoutToken(token);
             } catch (error) {
                 
             }
         }
-    }, []);
+
+        generateToken();
+    }, [cart]);
 
     const Confirmation = () => (
         <div>
@@ -32,7 +37,7 @@ const Checkout = () => {
 
     const Form = () => 
         activeStep === 0 
-        ? <AddressForm />
+        ? <AddressForm checkoutToken={checkoutToken} />
         : <PaymentForm />
     
     return (
@@ -48,7 +53,7 @@ const Checkout = () => {
                                     </Step>
                                 ))}
                             </Stepper>
-                            {activeStep === steps.length ? <Confirmation /> : <Form />}
+                            {activeStep === steps.length ? <Confirmation /> : checkoutToken && <Form />}
                         </Typography>
                     </Paper>
                 </main>
