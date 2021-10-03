@@ -16,7 +16,7 @@ const Navbar = ({ totalItems }) => {
               <Toolbar>
                 <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit">
                     <img src={logo} alt="Commerce.js" height="25px" className={classes.image} />
-                    Custom Web Store
+                    KACommerce E-Store
                 </Typography>
                 <div className={classes.grow} />
                 {location.pathname === '/' && (
